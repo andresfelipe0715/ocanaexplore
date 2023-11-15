@@ -1,9 +1,11 @@
 package com.proyecto_turismo_ufpso.turismo.typeService.service;
 
+import com.proyecto_turismo_ufpso.turismo.Exception.exceptions.MessageGeneric;
 import com.proyecto_turismo_ufpso.turismo.typeService.dto.TypeServiceDto;
 import com.proyecto_turismo_ufpso.turismo.typeService.repository.TypeServiceRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -29,7 +31,9 @@ public class TypeServiceServiceImp implements TypeServiceService {
 
     @Override
     public Optional<TypeServiceDto> getTypeId(UUID typeId) {
-        return Optional.empty();
+        return Optional.ofNullable(typeServiceRepository.findById(typeId).map(typeService ->
+                modelMapper.map(typeService, TypeServiceDto.class)).orElseThrow(() ->
+                new MessageGeneric("No se encontro la categoria que esta solicitando", "404", HttpStatus.NOT_FOUND)));
     }
 
     @Override
