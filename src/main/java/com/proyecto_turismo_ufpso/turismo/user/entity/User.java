@@ -34,22 +34,16 @@ public class User {
     @Column(name = "Profile_name", nullable = false, length = 50, updatable = true)
     private String profileName;
 
-
     @OneToOne
     @JoinColumn(name = "fk_person_id", insertable = false , updatable = false)
     private Person person;
-
 
     @ManyToOne
     @JoinColumn(name = "fk_profile_id")
     private Profile profile;
 
-
-
     @Column( name = "activo", nullable = false)
     private Boolean activo = true;
-
-
 
 
     public User(UUID userId, String userName, String userPassword) {
