@@ -7,4 +7,6 @@ import java.util.UUID;
 
 public interface TypeServiceRepository extends JpaRepository<TypeService, UUID> {
 
+    Boolean existsByTypeName(String typeName);
+
 }

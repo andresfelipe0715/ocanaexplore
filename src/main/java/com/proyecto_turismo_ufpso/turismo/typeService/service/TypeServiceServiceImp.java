@@ -1,7 +1,9 @@
 package com.proyecto_turismo_ufpso.turismo.typeService.service;
 
+import com.proyecto_turismo_ufpso.turismo.Exception.exceptions.InternalServerException;
 import com.proyecto_turismo_ufpso.turismo.Exception.exceptions.MessageGeneric;
 import com.proyecto_turismo_ufpso.turismo.typeService.dto.TypeServiceDto;
+import com.proyecto_turismo_ufpso.turismo.typeService.entity.TypeService;
 import com.proyecto_turismo_ufpso.turismo.typeService.repository.TypeServiceRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,11 +40,26 @@ public class TypeServiceServiceImp implements TypeServiceService {
 
     @Override
     public TypeServiceDto saveType(TypeServiceDto typeServiceDto) {
-        return null;
+
+        TypeService typeService = modelMapper.map(typeServiceDto, TypeService.class);
+
+        if(typeServiceRepository.existsByTypeName(typeService.getTypeName())){
+            throw new InternalServerException("ERROR AL REGISTRAR EL TYPO DE SERVICIO", "500", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        try{
+            return modelMapper.map(typeServiceRepository.save(typeService), TypeServiceDto.class);
+        }catch (Exception ex) {
+            throw new InternalServerException("ERROR al intentar Registrar el tipo de servicio", "500", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @Override
     public TypeServiceDto updateType(UUID typeId, TypeServiceDto typeServiceDto) {
-        return null;
+
+        return typeServiceRepository.findById(typeId).map(typeService -> {
+            typeService.setTypeName((typeServiceDto.getTypeName() != null) ? typeServiceDto.getTypeName() : typeService.getTypeName());
+            typeService.setDescription((typeServiceDto.getDescription() != null) ? typeServiceDto.getDescription() : typeService.getDescription());
+            return modelMapper.map(typeServiceRepository.save(typeService), TypeServiceDto.class);
+        }).orElseThrow(() -> new MessageGeneric("No se encontro la categoria", "404", HttpStatus.NOT_FOUND));
     }
 }
