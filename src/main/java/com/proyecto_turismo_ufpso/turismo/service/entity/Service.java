@@ -4,6 +4,7 @@ import com.proyecto_turismo_ufpso.turismo.typeService.entity.TypeService;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.UUID;
 
 @Entity
@@ -22,6 +23,9 @@ public class Service {
 
     @Column(name = "description", nullable = false, length = 80)
     private String description;
+
+    //@Column(name = "date", nullable = false)
+    //private LocalDate date;
 
     @Column(name = "service_hour", nullable = false)
     private String serviceHour;
@@ -61,6 +65,9 @@ public class Service {
 
     @Column(name = "food_price")
     private Double foodPrice;
+
+    @Column(name = "food_amount")
+    private Double foodAmount;
 
     @Column(name = "entrance_fee ")
     private Double entranceFee ;
@@ -149,6 +156,14 @@ public class Service {
 
     public String getTypeName() {
         return typeName;
+    }
+
+    public Double getFoodAmount() {
+        return foodAmount;
+    }
+
+    public void setFoodAmount(Double foodAmount) {
+        this.foodAmount = foodAmount;
     }
 
     public void setTypeName(String typeName) {

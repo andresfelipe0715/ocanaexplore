@@ -43,7 +43,7 @@ public class ServiceServiceImp implements ServiceService{
                 new MessageGeneric("No se encontro el servicio que esta solicitando", "404", HttpStatus.NOT_FOUND)));
     }
 
-    @Override
+    /*@Override
     public ServiceDto saveService(ServiceDto serviceDto) {
         Optional<TypeService> optionalTypeService = typeServiceRepository.findByTypeName(serviceDto.getTypeName());
 
@@ -64,8 +64,60 @@ public class ServiceServiceImp implements ServiceService{
             // Maneja el caso en que no se encontró la categoría
             throw new MessageGeneric("El tipo de servicio no se encontró", "404", HttpStatus.NOT_FOUND);
         }
-    }
+    }*/
 
+    @Override
+    public ServiceDto saveService(ServiceDto serviceDto) {
+        Optional<TypeService> optionalTypeService = typeServiceRepository.findByTypeName(serviceDto.getTypeName());
+
+        if (optionalTypeService.isPresent()) {
+            TypeService typeService = optionalTypeService.get();
+
+            serviceDto.setTypeId(typeService.getTypeId());
+
+            /*if (serviceRepository.existsByServiceName(serviceDto.getServiceName())) {
+                throw new MessageGeneric("Ya existe un servicio con este nombre: ", "409", HttpStatus.CONFLICT);
+            }*/
+
+            try {
+                com.proyecto_turismo_ufpso.turismo.service.entity.Service entity =
+                        modelMapper.map(serviceDto, com.proyecto_turismo_ufpso.turismo.service.entity.Service.class);
+
+                // Calcular subtotal
+                double subtotal = 0;
+
+                if ("Hoteleria".equals(serviceDto.getTypeName())) {
+                    double room = serviceDto.getRoom() != null ? serviceDto.getRoom() : 0;
+                    double doubleRoom = serviceDto.getDoubleRoom() != null ? serviceDto.getDoubleRoom() : 0;
+                    double nightAmount = serviceDto.getNightAmount() != null ? serviceDto.getNightAmount() : 0;
+                    double roomAmount = serviceDto.getRoomAmount() != null ? serviceDto.getRoomAmount() : 0;
+                    subtotal = (room * nightAmount * roomAmount) + (doubleRoom * nightAmount * roomAmount);
+                } else if ("Restaurante".equals(serviceDto.getTypeName())) {
+                    double foodPrice = serviceDto.getFoodPrice() != null ? serviceDto.getFoodPrice() : 0;
+                    double foodAmount = serviceDto.getFoodAmount() != null ? serviceDto.getFoodAmount() : 0;
+                    double priceTrans = serviceDto.getPriceTrans() != null ? serviceDto.getPriceTrans() : 0;
+                    double tripAmount = serviceDto.getTripAmount() != null ? serviceDto.getTripAmount() : 0;
+                    subtotal = (foodPrice * foodAmount) + (priceTrans * tripAmount);
+                } else if ("Sitio turistico".equals(serviceDto.getTypeName())) {
+                    double entranceFee = serviceDto.getEntranceFee() != null ? serviceDto.getEntranceFee() : 0;
+                    double personalGuide = serviceDto.getPersonalGuide() != null ? serviceDto.getPersonalGuide() : 0;
+                    double priceTrans = serviceDto.getPriceTrans() != null ? serviceDto.getPriceTrans() : 0;
+                    double tripAmount = serviceDto.getTripAmount() != null ? serviceDto.getTripAmount() : 0;
+                    subtotal = entranceFee + personalGuide + (priceTrans * tripAmount);
+                }
+
+                entity.setSubtotal(subtotal);
+
+                return modelMapper.map(serviceRepository.save(entity), ServiceDto.class);
+            } catch (Exception ex) {
+                throw new InternalServerException("ERROR al intentar Registrar el servicio", "500",
+                        HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+        } else {
+            // Maneja el caso en que no se encontró la categoría
+            throw new MessageGeneric("El tipo de servicio no se encontró", "404", HttpStatus.NOT_FOUND);
+        }
+    }
     @Override
     public ServiceDto updateService(UUID serviceId, ServiceDto serviceDto) {
         return serviceRepository.findById(serviceId).map(service -> {

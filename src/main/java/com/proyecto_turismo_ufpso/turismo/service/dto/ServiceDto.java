@@ -1,6 +1,7 @@
 package com.proyecto_turismo_ufpso.turismo.service.dto;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -8,6 +9,8 @@ import javax.persistence.Column;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.UUID;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -30,6 +33,11 @@ public class ServiceDto {
     @Size(max = 80,message = "El campo description debe tener menos de 80 carater")
     private String description;
 
+
+    /*@JsonProperty(value = "date")
+    @NotNull(message = "El campo date no puede ser null")
+    @NotEmpty
+    private LocalDate date;*/
 
     @JsonProperty(value = "serviceHour")
     @NotNull(message = "El campo serviceHour no puede ser null")
@@ -107,6 +115,10 @@ public class ServiceDto {
     @NotNull
     private Double subtotal;
 
+    @JsonProperty(value = "foodAmount")
+    @NotEmpty
+    private Double foodAmount;
+
     public UUID getServiceId() {
         return serviceId;
     }
@@ -147,6 +159,7 @@ public class ServiceDto {
     public void setServiceName(String serviceName) {
         this.serviceName = serviceName;
     }
+
 
     public String getDescription() {
         return description;
@@ -202,6 +215,14 @@ public class ServiceDto {
 
     public void setRoomAmount(Integer roomAmount) {
         this.roomAmount = roomAmount;
+    }
+
+    public Double getFoodAmount() {
+        return foodAmount;
+    }
+
+    public void setFoodAmount(Double foodAmount) {
+        this.foodAmount = foodAmount;
     }
 
     public Double getSubtotal() {
