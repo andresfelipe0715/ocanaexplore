@@ -58,7 +58,7 @@ public class ServiceServiceImp implements ServiceService{
             try{
                 return modelMapper.map(serviceRepository.save(modelMapper.map(serviceDto, com.proyecto_turismo_ufpso.turismo.service.entity.Service.class)), ServiceDto.class);
             }catch (Exception ex) {
-                throw new InternalServerException("ERROR al intentar Registrar el producto", "500", HttpStatus.INTERNAL_SERVER_ERROR);
+                throw new InternalServerException("ERROR al intentar Registrar el servicio", "500", HttpStatus.INTERNAL_SERVER_ERROR);
             }
         } else {
             // Maneja el caso en que no se encontró la categoría
@@ -84,6 +84,7 @@ public class ServiceServiceImp implements ServiceService{
             service.setFoodPrice((serviceDto.getFoodPrice() != null) ? serviceDto.getFoodPrice() : service.getFoodPrice());
             service.setEntranceFee((serviceDto.getEntranceFee() != null) ? serviceDto.getEntranceFee() : service.getEntranceFee());
             service.setPersonalGuide((serviceDto.getPersonalGuide() != null) ? serviceDto.getPersonalGuide() : service.getPersonalGuide());
+            service.setRoomAmount((serviceDto.getRoomAmount() != null) ? serviceDto.getRoomAmount() : service.getRoomAmount());
 
             if (serviceDto.getServiceName() != null){
                 Optional<TypeService> optionalTypeService = typeServiceRepository.findByTypeName(serviceDto.getTypeName());

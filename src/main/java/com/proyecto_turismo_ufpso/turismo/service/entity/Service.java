@@ -53,6 +53,9 @@ public class Service {
     @Column(name = "double_room")
     private Double doubleRoom;
 
+    @Column(name = "room_amount")
+    private Integer roomAmount;
+
     @Column(name = "night_amount")
     private Integer nightAmount ;
 
@@ -64,6 +67,9 @@ public class Service {
 
     @Column(name = "personal_guide")
     private Double personalGuide ;
+
+    @Column(name = "subtotal", nullable = false)
+    private Double subtotal;
 
     @ManyToOne
     @JoinColumn(name = "fk_type_service_id", insertable = false,updatable = false)  //no se pueden insertar ni actualizar nuevas categorias
@@ -149,6 +155,14 @@ public class Service {
         this.typeName = typeName;
     }
 
+    public Integer getRoomAmount() {
+        return roomAmount;
+    }
+
+    public void setRoomAmount(Integer roomAmount) {
+        this.roomAmount = roomAmount;
+    }
+
     public Double getPriceTrans() {
         return priceTrans;
     }
@@ -219,5 +233,13 @@ public class Service {
 
     public void setTypeService(TypeService typeService) {
         this.typeService = typeService;
+    }
+
+    public Double getSubtotal() {
+        return subtotal;
+    }
+
+    public void setSubtotal(Double subtotal) {
+        this.subtotal = subtotal;
     }
 }

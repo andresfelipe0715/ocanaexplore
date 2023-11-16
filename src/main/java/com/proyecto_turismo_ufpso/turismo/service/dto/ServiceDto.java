@@ -66,46 +66,46 @@ public class ServiceDto {
 
     @JsonProperty(value = "priceTrans")
     @NotEmpty
-    @Size(max = 80,message = "El campo serviceImg debe tener menos de 80 carater")
     private Double priceTrans;
 
     @JsonProperty(value = "tripAmount")
     @NotEmpty
-    @Size(max = 80,message = "El campo serviceImg debe tener menos de 80 carater")
     private Integer tripAmount;
 
 
     @JsonProperty(value = "room")
     @NotEmpty
-    @Size(max = 80,message = "El campo room debe tener menos de 80 carater")
     private Double room;
 
     @JsonProperty(value = "doubleRoom")
     @NotEmpty
-    @Size(max = 80,message = "El campo room debe tener menos de 80 carater")
     private Double doubleRoom;
 
     @JsonProperty(value = "nightAmount")
     @NotEmpty
-    @Size(max = 80,message = "El campo nightAmount debe tener menos de 80 carater")
     private Integer nightAmount;
 
+    @JsonProperty(value = "roomAmount")
+    @NotEmpty
+    private Integer roomAmount;
 
     @JsonProperty(value = "foodPrice")
     @NotEmpty
-    @Size(max = 80,message = "El campo foodPrice debe tener menos de 80 carater")
     private Double foodPrice;
 
     @JsonProperty(value = "entranceFee")
     @NotEmpty
-    @Size(max = 80,message = "El campo entranceFee debe tener menos de 80 carater")
     private Double entranceFee;
 
 
     @JsonProperty(value = "personalGuide")
     @NotEmpty
-    @Size(max = 80,message = "El campo personalGuide debe tener menos de 80 carater")
     private Double personalGuide;
+
+    @JsonProperty(value = "subtotal")
+    @NotEmpty
+    @NotNull
+    private Double subtotal;
 
     public UUID getServiceId() {
         return serviceId;
@@ -122,6 +122,7 @@ public class ServiceDto {
     public String getTypeName() {
         return TypeName;
     }
+
 
     public void setTypeName(String typeName) {
         TypeName = typeName;
@@ -193,6 +194,22 @@ public class ServiceDto {
 
     public void setPriceTrans(Double priceTrans) {
         this.priceTrans = priceTrans;
+    }
+
+    public Integer getRoomAmount() {
+        return roomAmount;
+    }
+
+    public void setRoomAmount(Integer roomAmount) {
+        this.roomAmount = roomAmount;
+    }
+
+    public Double getSubtotal() {
+        return subtotal;
+    }
+
+    public void setSubtotal(Double subtotal) {
+        this.subtotal = subtotal;
     }
 
     public Integer getTripAmount() {
