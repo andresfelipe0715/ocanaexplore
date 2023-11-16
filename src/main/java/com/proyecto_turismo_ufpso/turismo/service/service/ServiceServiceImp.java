@@ -62,7 +62,7 @@ public class ServiceServiceImp implements ServiceService{
             }
         } else {
             // Maneja el caso en que no se encontró la categoría
-            throw new MessageGeneric("La categoría no se encontró", "404", HttpStatus.NOT_FOUND);
+            throw new MessageGeneric("El tipo de servicio no se encontró", "404", HttpStatus.NOT_FOUND);
         }
     }
 
@@ -97,7 +97,7 @@ public class ServiceServiceImp implements ServiceService{
                 }
             }
             return modelMapper.map(serviceRepository.save(service), ServiceDto.class);
-        }).orElseThrow(() -> new MessageGeneric("No se encontró el producto", "404", HttpStatus.NOT_FOUND));
+        }).orElseThrow(() -> new MessageGeneric("No se encontró el servicio", "404", HttpStatus.NOT_FOUND));
     }
 
     @Override
@@ -120,7 +120,7 @@ public class ServiceServiceImp implements ServiceService{
     public Optional<ServiceDto> getServiceName(String serviceName) {
         return Optional.ofNullable(serviceRepository.findByServiceName(serviceName).map(service ->
                 modelMapper.map(service, ServiceDto.class)).
-                orElseThrow(() -> new MessageGeneric("No se encontro el producto que esta solicitando", "404", HttpStatus.NOT_FOUND)));
+                orElseThrow(() -> new MessageGeneric("No se encontro el servicio que esta solicitando", "404", HttpStatus.NOT_FOUND)));
     }
 
     @Override

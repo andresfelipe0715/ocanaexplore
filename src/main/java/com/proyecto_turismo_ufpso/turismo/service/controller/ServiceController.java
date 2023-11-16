@@ -33,6 +33,11 @@ public class ServiceController {
         return new ResponseEntity<>(serviceService.saveService(serviceDto), HttpStatus.CREATED);
     }
 
+    @PutMapping("/update/{serviceId}") //actualizar un producto
+    public ResponseEntity<ServiceDto> updateService(@RequestBody ServiceDto serviceDto, @PathVariable("serviceId") UUID serviceId) {
+        return new ResponseEntity<>(serviceService.updateService(serviceId, serviceDto),HttpStatus.OK);
+
+    }
     @DeleteMapping("/delete/{serviceId}")
     public ResponseEntity deleteService(@PathVariable UUID serviceId){
         if (serviceService.deleteService(serviceId)){
@@ -62,7 +67,7 @@ public class ServiceController {
         }
     }
 
-    @GetMapping("/name/{serviceName}")
+    @GetMapping("/serviceName/{serviceName}")
     public ResponseEntity<ServiceDto> findByName(@PathVariable String serviceName){
         return serviceService.getServiceName(serviceName).map(serviceDto -> new ResponseEntity<>(serviceDto, HttpStatus.OK))
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
