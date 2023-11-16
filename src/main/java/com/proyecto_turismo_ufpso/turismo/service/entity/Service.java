@@ -1,5 +1,6 @@
 package com.proyecto_turismo_ufpso.turismo.service.entity;
 
+import com.proyecto_turismo_ufpso.turismo.typeService.entity.TypeService;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -34,6 +35,9 @@ public class Service {
     @Column(name = "service_img")
     private String serviceImg;
 
+    @Column(name = "typeName")
+    private String typeName;
+
     @Column(name = "rating")
     private String rating;
 
@@ -61,6 +65,9 @@ public class Service {
     @Column(name = "personal_guide")
     private Double personalGuide ;
 
+    @ManyToOne
+    @JoinColumn(name = "fk_type_service_id", insertable = false,updatable = false)  //no se pueden insertar ni actualizar nuevas categorias
+    private TypeService typeService;
 
     public UUID getServiceId() {
         return serviceId;
@@ -134,6 +141,14 @@ public class Service {
         this.rating = rating;
     }
 
+    public String getTypeName() {
+        return typeName;
+    }
+
+    public void setTypeName(String typeName) {
+        this.typeName = typeName;
+    }
+
     public Double getPriceTrans() {
         return priceTrans;
     }
@@ -196,5 +211,13 @@ public class Service {
 
     public void setPersonalGuide(Double personalGuide) {
         this.personalGuide = personalGuide;
+    }
+
+    public TypeService getTypeService() {
+        return typeService;
+    }
+
+    public void setTypeService(TypeService typeService) {
+        this.typeService = typeService;
     }
 }

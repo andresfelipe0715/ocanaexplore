@@ -1,8 +1,10 @@
 package com.proyecto_turismo_ufpso.turismo.typeService.entity;
 
+import com.proyecto_turismo_ufpso.turismo.service.entity.Service;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.UUID;
 
 
@@ -21,6 +23,9 @@ public class TypeService {
 
     @Column(name = "description", nullable = false, length = 80)
     private String description;
+
+    @OneToMany (mappedBy = "typeService", cascade = {CascadeType.DETACH,CascadeType.REMOVE,CascadeType.MERGE})
+    private List<Service> services;
 
     public UUID getTypeId() {
         return typeId;
@@ -44,5 +49,13 @@ public class TypeService {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public List<Service> getServices() {
+        return services;
+    }
+
+    public void setServices(List<Service> services) {
+        this.services = services;
     }
 }

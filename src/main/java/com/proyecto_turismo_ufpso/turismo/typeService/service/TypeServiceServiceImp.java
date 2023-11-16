@@ -1,5 +1,6 @@
 package com.proyecto_turismo_ufpso.turismo.typeService.service;
 
+
 import com.proyecto_turismo_ufpso.turismo.Exception.exceptions.InternalServerException;
 import com.proyecto_turismo_ufpso.turismo.Exception.exceptions.MessageGeneric;
 import com.proyecto_turismo_ufpso.turismo.typeService.dto.TypeServiceDto;

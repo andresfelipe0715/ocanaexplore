@@ -50,10 +50,19 @@ public class ServiceDto {
     @Size(max = 80,message = "El campo location debe tener menos de 80 carater")
     private String location;
 
+    @JsonProperty(value = "typeName")
+    @NotEmpty
+    private String TypeName;
+
     @JsonProperty(value = "serviceImg")
     @NotEmpty
     @Size(max = 80,message = "El campo serviceImg debe tener menos de 80 carater")
     private String serviceImg;
+
+    @JsonProperty(value = "rating")
+    @NotEmpty
+    @Size(max = 80,message = "El campo serviceImg debe tener menos de 80 carater")
+    private String rating;
 
     @JsonProperty(value = "priceTrans")
     @NotEmpty
@@ -108,6 +117,22 @@ public class ServiceDto {
 
     public UUID getTypeId() {
         return typeId;
+    }
+
+    public String getTypeName() {
+        return TypeName;
+    }
+
+    public void setTypeName(String typeName) {
+        TypeName = typeName;
+    }
+
+    public String getRating() {
+        return rating;
+    }
+
+    public void setRating(String rating) {
+        this.rating = rating;
     }
 
     public void setTypeId(UUID typeId) {
@@ -225,4 +250,5 @@ public class ServiceDto {
     public void setPersonalGuide(Double personalGuide) {
         this.personalGuide = personalGuide;
     }
+
 }
