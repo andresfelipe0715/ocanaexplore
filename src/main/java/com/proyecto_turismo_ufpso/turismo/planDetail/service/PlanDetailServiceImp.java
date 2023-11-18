@@ -50,42 +50,40 @@ public class PlanDetailServiceImp implements PlanDetailService{
     }
 
     @Override
-    public PlanDetailDto savePlanDetail(PlanDetailDto planDetailDto, ServiceDto serviceDto) {
-        // Calcular subtotal
-        double subtotal = 0;
+    public PlanDetailDto savePlanDetail(PlanDetailDto planDetailDto) {
 
-        if ("Hoteleria".equals(serviceDto.getTypeName())) {
-            double room = serviceDto.getRoom() != null ? serviceDto.getRoom() : 0;
-            double doubleRoom = serviceDto.getDoubleRoom() != null ? serviceDto.getDoubleRoom() : 0;
-            double nightAmount = serviceDto.getNightAmount() != null ? serviceDto.getNightAmount() : 0;
-            double roomAmount = planDetailDto.getRoomAmount() != null ? planDetailDto.getRoomAmount() : 0;
-            double doubleRoomAmount = planDetailDto.getDoubleRoomAmount() != null ? planDetailDto.getDoubleRoomAmount() : 0;
-            subtotal = (room * nightAmount * roomAmount) + (doubleRoom * nightAmount * doubleRoomAmount);
-        } else if ("Restaurante".equals(serviceDto.getTypeName())) {
-            double foodPrice = serviceDto.getFoodPrice() != null ? serviceDto.getFoodPrice() : 0;
-            double foodAmount = planDetailDto.getFoodAmount() != null ? planDetailDto.getFoodAmount() : 0;
-            double priceTrans = serviceDto.getPriceTrans() != null ? serviceDto.getPriceTrans() : 0;
-            double tripAmount = planDetailDto.getTripAmount() != null ? planDetailDto.getTripAmount() : 0;
-            subtotal = (foodPrice * foodAmount) + (priceTrans * tripAmount);
-        } else if ("Sitio turistico".equals(serviceDto.getTypeName())) {
-            double entranceFee = serviceDto.getEntranceFee() != null ? serviceDto.getEntranceFee() : 0;
-            double personalGuide = serviceDto.getPersonalGuide() != null ? serviceDto.getPersonalGuide() : 0;
-            double priceTrans = serviceDto.getPriceTrans() != null ? serviceDto.getPriceTrans() : 0;
-            double tripAmount = planDetailDto.getTripAmount() != null ? planDetailDto.getTripAmount() : 0;
-            subtotal = entranceFee + personalGuide + (priceTrans * tripAmount);
+        com.proyecto_turismo_ufpso.turismo.service.entity.Service service = serviceRepository.findById(planDetailDto.getServiceId())
+                .orElseThrow(() -> new MessageGeneric("Servicio no encontrado", "404", HttpStatus.NOT_FOUND));
+
+        PlanDetail planDetail = modelMapper.map(planDetailDto, PlanDetail.class);
+        planDetail.setService(service);
+
+        double subtotal = 0.0;
+
+        // Verificar el tipo de servicio y calcular el subtotal en consecuencia
+        if ("Hoteleria".equals(service.getTypeName())) {
+            // Tipo de servicio: Hoteleria
+            double roomSubtotal = (planDetailDto.getRoomAmount() * planDetailDto.getNight_amount() * service.getRoom())
+                    + (planDetailDto.getDoubleRoomAmount() * planDetailDto.getNight_amount() * planDetailDto.getDoubleRoomAmount());
+            subtotal = roomSubtotal;
+        } else if ("Restaurante".equals(service.getTypeName())) {
+            // Tipo de servicio: Restaurante
+            double restaurantSubtotal = (service.getFoodPrice() * planDetailDto.getFoodAmount())
+                    + (service.getPriceTrans() * planDetailDto.getTripAmount());
+            subtotal = restaurantSubtotal;
+        } else if ("Sitio turistico".equals(service.getTypeName())) {
+            // Tipo de servicio: Sitio Turistico
+            double touristSiteSubtotal = service.getEntranceFee() + service.getPersonalGuide()
+                    + (service.getPriceTrans() * planDetailDto.getTripAmount());
+            subtotal = touristSiteSubtotal;
         }
 
-        // Establecer el subtotal en el PlanDetailDto
-        planDetailDto.setSubtotal(subtotal);
+        // Establecer el subtotal en el PlanDetail
+        planDetail.setSubtotal(subtotal);
 
-        // Ahora puedes guardar el PlanDetailDto en la base de datos o realizar otras operaciones necesarias.
-
-        // Ejemplo de guardado en la base de datos
-        PlanDetail planDetailEntity = modelMapper.map(planDetailDto, PlanDetail.class);
-        PlanDetail savedPlanDetailEntity = planDetailRepository.save(planDetailEntity);
-
-        // Mapear y devolver el resultado
-        return modelMapper.map(savedPlanDetailEntity, PlanDetailDto.class);
+        // Guardar en el repositorio y devolver el DTO
+        planDetail = planDetailRepository.save(planDetail);
+        return modelMapper.map(planDetail, PlanDetailDto.class);
     }
 
 

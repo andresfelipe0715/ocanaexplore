@@ -46,7 +46,7 @@ public class PlanDetail {
     private Double foodAmount;
 
     @Column(name = "time")
-    private Double time;
+    private String time;
 
     @Column(name = "subtotal", nullable = false)
     private Double subtotal;
@@ -84,11 +84,11 @@ public class PlanDetail {
         this.planId = planId;
     }
 
-    public Double getTime() {
+    public String getTime() {
         return time;
     }
 
-    public void setTime(Double time) {
+    public void setTime(String time) {
         this.time = time;
     }
 

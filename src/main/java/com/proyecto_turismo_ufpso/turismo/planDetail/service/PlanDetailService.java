@@ -13,7 +13,7 @@ public interface PlanDetailService {
 
     Optional <PlanDetailDto> getPlanDetailId(UUID planDetailId);
 
-    PlanDetailDto savePlanDetail (PlanDetailDto planDetailDto, ServiceDto serviceDto);
+    PlanDetailDto savePlanDetail (PlanDetailDto planDetailDto);
 
     Boolean deletePlanDetail (UUID planDetailId);
 

@@ -58,7 +58,6 @@ public class PlanDetailDto {
 
     @JsonProperty(value = "serviceName")
     @NotEmpty
-    @NotNull(message = "El nombre no debe ser nulo")
     private String serviceName;
 
     @JsonProperty(value = "serviceImg")

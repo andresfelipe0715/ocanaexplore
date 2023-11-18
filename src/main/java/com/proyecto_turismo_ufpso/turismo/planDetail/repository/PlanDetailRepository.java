@@ -11,6 +11,6 @@ public interface PlanDetailRepository extends JpaRepository<PlanDetail, UUID> {
 
     List<PlanDetail> getByPlanId (UUID planId);
 
-    @Query(value = "select sum(cp.subtotal) from encanto.plan_detail cp where cp.fk_plan_id = :planId", nativeQuery = true)
+    @Query(value = "select sum(pd.subtotal) from turismo.plan_detail pd where pd.fk_plan_id = :planId", nativeQuery = true)
     Double sumSubtotalByPlanId(UUID planId);
 }
