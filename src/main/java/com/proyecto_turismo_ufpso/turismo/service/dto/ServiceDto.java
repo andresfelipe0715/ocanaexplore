@@ -16,9 +16,13 @@ import java.util.UUID;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ServiceDto {
     @JsonProperty(value = "serviceId", access = JsonProperty.Access.READ_ONLY)
+    @NotEmpty
+    @NotNull
     private UUID serviceId;
 
-    @JsonProperty(value = "fk_type_service_id")
+    @JsonProperty(value = "typeId")
+    @NotEmpty
+    @NotNull
     private UUID typeId;
 
     @JsonProperty(value = "serviceName")

@@ -24,9 +24,6 @@ public class Service {
     @Column(name = "description", nullable = false, length = 80)
     private String description;
 
-    //@Column(name = "date", nullable = false)
-    //private LocalDate date;
-
     @Column(name = "service_hour", nullable = false)
     private String serviceHour;
 
@@ -48,8 +45,6 @@ public class Service {
     @Column(name = "price_trans")
     private Double priceTrans;
 
-    @Column(name = "trip_amount")
-    private Integer tripAmount;
 
     @Column(name = "room")
     private Double room;
@@ -57,17 +52,9 @@ public class Service {
     @Column(name = "double_room")
     private Double doubleRoom;
 
-    @Column(name = "room_amount")
-    private Integer roomAmount;
-
-    @Column(name = "night_amount")
-    private Integer nightAmount ;
 
     @Column(name = "food_price")
     private Double foodPrice;
-
-    @Column(name = "food_amount")
-    private Double foodAmount;
 
     @Column(name = "entrance_fee ")
     private Double entranceFee ;
@@ -75,9 +62,8 @@ public class Service {
     @Column(name = "personal_guide")
     private Double personalGuide ;
 
-    @Column(name = "subtotal", nullable = false)
-    private Double subtotal;
-
+    @Column(name = "state")
+    private Boolean state;
     @ManyToOne
     @JoinColumn(name = "fk_type_service_id", insertable = false,updatable = false)  //no se pueden insertar ni actualizar nuevas categorias
     private TypeService typeService;
@@ -146,6 +132,14 @@ public class Service {
         this.serviceImg = serviceImg;
     }
 
+    public String getTypeName() {
+        return typeName;
+    }
+
+    public void setTypeName(String typeName) {
+        this.typeName = typeName;
+    }
+
     public String getRating() {
         return rating;
     }
@@ -154,44 +148,12 @@ public class Service {
         this.rating = rating;
     }
 
-    public String getTypeName() {
-        return typeName;
-    }
-
-    public Double getFoodAmount() {
-        return foodAmount;
-    }
-
-    public void setFoodAmount(Double foodAmount) {
-        this.foodAmount = foodAmount;
-    }
-
-    public void setTypeName(String typeName) {
-        this.typeName = typeName;
-    }
-
-    public Integer getRoomAmount() {
-        return roomAmount;
-    }
-
-    public void setRoomAmount(Integer roomAmount) {
-        this.roomAmount = roomAmount;
-    }
-
     public Double getPriceTrans() {
         return priceTrans;
     }
 
     public void setPriceTrans(Double priceTrans) {
         this.priceTrans = priceTrans;
-    }
-
-    public Integer getTripAmount() {
-        return tripAmount;
-    }
-
-    public void setTripAmount(Integer tripAmount) {
-        this.tripAmount = tripAmount;
     }
 
     public Double getRoom() {
@@ -208,14 +170,6 @@ public class Service {
 
     public void setDoubleRoom(Double doubleRoom) {
         this.doubleRoom = doubleRoom;
-    }
-
-    public Integer getNightAmount() {
-        return nightAmount;
-    }
-
-    public void setNightAmount(Integer nightAmount) {
-        this.nightAmount = nightAmount;
     }
 
     public Double getFoodPrice() {
@@ -242,19 +196,19 @@ public class Service {
         this.personalGuide = personalGuide;
     }
 
+    public Boolean getState() {
+        return state;
+    }
+
+    public void setState(Boolean state) {
+        this.state = state;
+    }
+
     public TypeService getTypeService() {
         return typeService;
     }
 
     public void setTypeService(TypeService typeService) {
         this.typeService = typeService;
-    }
-
-    public Double getSubtotal() {
-        return subtotal;
-    }
-
-    public void setSubtotal(Double subtotal) {
-        this.subtotal = subtotal;
     }
 }
