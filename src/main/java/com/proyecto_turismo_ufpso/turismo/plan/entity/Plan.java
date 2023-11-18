@@ -1,5 +1,6 @@
 package com.proyecto_turismo_ufpso.turismo.plan.entity;
 
+import com.proyecto_turismo_ufpso.turismo.planDetail.entity.PlanDetail;
 import com.proyecto_turismo_ufpso.turismo.user.entity.User;
 import org.hibernate.annotations.GenericGenerator;
 
@@ -26,8 +27,8 @@ public class Plan {
     @JoinColumn(name = "fk_user_id", insertable = false,updatable = false)  //no se pueden insertar ni actualizar nuevas categorias
     private User user;
 
-    //@OneToMany(mappedBy = "plan", cascade = {CascadeType.DETACH,CascadeType.REMOVE,CascadeType.MERGE})
-    //private List<PlanDetail> planDetails;
+    @OneToMany(mappedBy = "plan", cascade = {CascadeType.DETACH,CascadeType.REMOVE,CascadeType.MERGE})
+    private List<PlanDetail> planDetails;
 
 
     public UUID getPlanId() {
@@ -60,5 +61,13 @@ public class Plan {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public List<PlanDetail> getPlanDetails() {
+        return planDetails;
+    }
+
+    public void setPlanDetails(List<PlanDetail> planDetails) {
+        this.planDetails = planDetails;
     }
 }

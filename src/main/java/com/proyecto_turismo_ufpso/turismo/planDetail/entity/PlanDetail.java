@@ -1,6 +1,8 @@
 package com.proyecto_turismo_ufpso.turismo.planDetail.entity;
 
 
+import com.proyecto_turismo_ufpso.turismo.plan.entity.Plan;
+import com.proyecto_turismo_ufpso.turismo.service.entity.Service;
 import com.proyecto_turismo_ufpso.turismo.typeService.entity.TypeService;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -24,6 +26,8 @@ public class PlanDetail {
 
     @Column(name = "fk_plan_id")
     private UUID planId;
+
+    @Column(name = "date")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date date;
     @Column(name = "trip_amount")
@@ -46,15 +50,107 @@ public class PlanDetail {
     private Double subtotal;
 
 
+     @ManyToOne
+     @JoinColumn(name = "fk_plan_id", insertable = false,updatable = false)  //no se pueden insertar ni actualizar nuevas categorias
+     private Plan plan;
 
-  //  @ManyToOne
-  //  @JoinColumn(name = "fk_plan_id", insertable = false,updatable = false)  //no se pueden insertar ni actualizar nuevas categorias
-  //  private Plan plan;
+    @ManyToOne
+    @JoinColumn(name = "fk_service_id", insertable = false,updatable = false)  //no se pueden insertar ni actualizar nuevas categorias
+    private Service service;
 
-    //  @ManyToOne
-    //  @JoinColumn(name = "fk_service_id", insertable = false,updatable = false)  //no se pueden insertar ni actualizar nuevas categorias
-    //  private Service service;
+    public UUID getPlanDetailId() {
+        return planDetailId;
+    }
 
+    public void setPlanDetailId(UUID planDetailId) {
+        this.planDetailId = planDetailId;
+    }
 
+    public UUID getServiceId() {
+        return serviceId;
+    }
 
+    public void setServiceId(UUID serviceId) {
+        this.serviceId = serviceId;
+    }
+
+    public UUID getPlanId() {
+        return planId;
+    }
+
+    public void setPlanId(UUID planId) {
+        this.planId = planId;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public Integer getTripAmount() {
+        return tripAmount;
+    }
+
+    public void setTripAmount(Integer tripAmount) {
+        this.tripAmount = tripAmount;
+    }
+
+    public Integer getRoomAmount() {
+        return roomAmount;
+    }
+
+    public void setRoomAmount(Integer roomAmount) {
+        this.roomAmount = roomAmount;
+    }
+
+    public Integer getDoubleRoomAmount() {
+        return doubleRoomAmount;
+    }
+
+    public void setDoubleRoomAmount(Integer doubleRoomAmount) {
+        this.doubleRoomAmount = doubleRoomAmount;
+    }
+
+    public Integer getNightAmount() {
+        return nightAmount;
+    }
+
+    public void setNightAmount(Integer nightAmount) {
+        this.nightAmount = nightAmount;
+    }
+
+    public Double getFoodAmount() {
+        return foodAmount;
+    }
+
+    public void setFoodAmount(Double foodAmount) {
+        this.foodAmount = foodAmount;
+    }
+
+    public Double getSubtotal() {
+        return subtotal;
+    }
+
+    public void setSubtotal(Double subtotal) {
+        this.subtotal = subtotal;
+    }
+
+    public Plan getPlan() {
+        return plan;
+    }
+
+    public void setPlan(Plan plan) {
+        this.plan = plan;
+    }
+
+    public Service getService() {
+        return service;
+    }
+
+    public void setService(Service service) {
+        this.service = service;
+    }
 }
