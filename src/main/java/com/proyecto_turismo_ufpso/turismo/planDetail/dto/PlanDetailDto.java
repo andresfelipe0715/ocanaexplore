@@ -32,6 +32,10 @@ public class PlanDetailDto {
     @NotEmpty
     private Date date;
 
+    @JsonProperty(value = "time")
+    @NotEmpty
+    private String time;
+
     @JsonProperty(value = "tripAmount")
     @NotEmpty
     private Integer tripAmount;
@@ -52,9 +56,21 @@ public class PlanDetailDto {
     @NotEmpty
     private Double foodAmount;
 
+    @JsonProperty(value = "serviceName")
+    @NotEmpty
+    @NotNull(message = "El nombre no debe ser nulo")
+    private String serviceName;
+
+    @JsonProperty(value = "serviceImg")
+    @NotNull(message = "La imagen no debe ser nulo")
+    @NotEmpty
+    private String serviceImg;
+
     @JsonProperty(value = "subtotal")
     @NotEmpty
     private Double subtotal;
+
+
 
     public UUID getPlanDetailId() {
         return planDetailId;
@@ -126,6 +142,22 @@ public class PlanDetailDto {
 
     public void setFoodAmount(Double foodAmount) {
         this.foodAmount = foodAmount;
+    }
+
+    public String getServiceName() {
+        return serviceName;
+    }
+
+    public void setServiceName(String serviceName) {
+        this.serviceName = serviceName;
+    }
+
+    public String getServiceImg() {
+        return serviceImg;
+    }
+
+    public void setServiceImg(String serviceImg) {
+        this.serviceImg = serviceImg;
     }
 
     public Double getSubtotal() {

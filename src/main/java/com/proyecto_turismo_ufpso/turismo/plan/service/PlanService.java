@@ -18,7 +18,7 @@ public interface PlanService {
 
     Boolean deletePlan(UUID planId);
 
-    PlanDto getCartByUser(UUID userId);
+    PlanDto getPlanByUser(UUID userId);
 
 
 }

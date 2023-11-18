@@ -12,13 +12,13 @@ import java.util.Date;
 import java.util.UUID;
 
 @Entity
-@Table(name = "planDetail", schema= "turismo")
+@Table(name = "plan_detail", schema= "turismo")
 public class PlanDetail {
 
     @Id
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
-    @Column(name="planDetail_id")
+    @Column(name="plan_detail_id")
     private UUID planDetailId;
 
     @Column(name = "fk_service_id")
@@ -82,6 +82,14 @@ public class PlanDetail {
 
     public void setPlanId(UUID planId) {
         this.planId = planId;
+    }
+
+    public Double getTime() {
+        return time;
+    }
+
+    public void setTime(Double time) {
+        this.time = time;
     }
 
     public Date getDate() {

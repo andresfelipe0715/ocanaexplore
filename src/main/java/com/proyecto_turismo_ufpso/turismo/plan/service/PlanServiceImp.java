@@ -5,6 +5,7 @@ import com.proyecto_turismo_ufpso.turismo.Exception.exceptions.MessageGeneric;
 import com.proyecto_turismo_ufpso.turismo.plan.dto.PlanDto;
 import com.proyecto_turismo_ufpso.turismo.plan.entity.Plan;
 import com.proyecto_turismo_ufpso.turismo.plan.repository.PlanRepository;
+import com.proyecto_turismo_ufpso.turismo.planDetail.repository.PlanDetailRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,6 +24,9 @@ public class PlanServiceImp implements PlanService{
 
     @Autowired
     private ModelMapper modelMapper;
+
+    @Autowired
+    private PlanDetailRepository planDetailRepository;
 
 
     @Override
@@ -55,7 +59,17 @@ public class PlanServiceImp implements PlanService{
 
     @Override
     public PlanDto updatePlan(UUID planId, PlanDto planDto) {
-        return null;
+        Plan plan =  planRepository.findById(planId)
+                .orElseThrow(() -> new MessageGeneric("Plan no encontrado", "404", HttpStatus.NOT_FOUND));
+        Double total = planDetailRepository.sumSubtotalByPlanId(planId);
+
+        // Actualizar el subtotal del cart
+        plan.setTotal(total);
+
+        // Guardar el cart actualizado
+        plan = planRepository.save(plan);
+
+        return modelMapper.map(plan, PlanDto.class);
     }
 
     @Override
@@ -68,7 +82,7 @@ public class PlanServiceImp implements PlanService{
     }
 
     @Override
-    public PlanDto getCartByUser(UUID userId) {
+    public PlanDto getPlanByUser(UUID userId) {
         Optional<Plan> plan = planRepository.findByUserId(userId);
 
         if (plan.isPresent()) {
