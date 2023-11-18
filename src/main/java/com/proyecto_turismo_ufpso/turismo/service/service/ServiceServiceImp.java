@@ -75,40 +75,12 @@ public class ServiceServiceImp implements ServiceService{
 
             serviceDto.setTypeId(typeService.getTypeId());
 
-            /*if (serviceRepository.existsByServiceName(serviceDto.getServiceName())) {
+            if (serviceRepository.existsByServiceName(serviceDto.getServiceName())) {
                 throw new MessageGeneric("Ya existe un servicio con este nombre: ", "409", HttpStatus.CONFLICT);
-            }*/
+            }
 
             try {
-                com.proyecto_turismo_ufpso.turismo.service.entity.Service entity =
-                        modelMapper.map(serviceDto, com.proyecto_turismo_ufpso.turismo.service.entity.Service.class);
-
-                // Calcular subtotal
-                double subtotal = 0;
-
-                if ("Hoteleria".equals(serviceDto.getTypeName())) {
-                    double room = serviceDto.getRoom() != null ? serviceDto.getRoom() : 0;
-                    double doubleRoom = serviceDto.getDoubleRoom() != null ? serviceDto.getDoubleRoom() : 0;
-                    double nightAmount = serviceDto.getNightAmount() != null ? serviceDto.getNightAmount() : 0;
-                    double roomAmount = serviceDto.getRoomAmount() != null ? serviceDto.getRoomAmount() : 0;
-                    subtotal = (room * nightAmount * roomAmount) + (doubleRoom * nightAmount * roomAmount);
-                } else if ("Restaurante".equals(serviceDto.getTypeName())) {
-                    double foodPrice = serviceDto.getFoodPrice() != null ? serviceDto.getFoodPrice() : 0;
-                    double foodAmount = serviceDto.getFoodAmount() != null ? serviceDto.getFoodAmount() : 0;
-                    double priceTrans = serviceDto.getPriceTrans() != null ? serviceDto.getPriceTrans() : 0;
-                    double tripAmount = serviceDto.getTripAmount() != null ? serviceDto.getTripAmount() : 0;
-                    subtotal = (foodPrice * foodAmount) + (priceTrans * tripAmount);
-                } else if ("Sitio turistico".equals(serviceDto.getTypeName())) {
-                    double entranceFee = serviceDto.getEntranceFee() != null ? serviceDto.getEntranceFee() : 0;
-                    double personalGuide = serviceDto.getPersonalGuide() != null ? serviceDto.getPersonalGuide() : 0;
-                    double priceTrans = serviceDto.getPriceTrans() != null ? serviceDto.getPriceTrans() : 0;
-                    double tripAmount = serviceDto.getTripAmount() != null ? serviceDto.getTripAmount() : 0;
-                    subtotal = entranceFee + personalGuide + (priceTrans * tripAmount);
-                }
-
-                entity.setSubtotal(subtotal);
-
-                return modelMapper.map(serviceRepository.save(entity), ServiceDto.class);
+                return modelMapper.map(serviceRepository.save(modelMapper.map(serviceDto, com.proyecto_turismo_ufpso.turismo.service.entity.Service.class)), ServiceDto.class);
             } catch (Exception ex) {
                 throw new InternalServerException("ERROR al intentar Registrar el servicio", "500",
                         HttpStatus.INTERNAL_SERVER_ERROR);
@@ -129,14 +101,11 @@ public class ServiceServiceImp implements ServiceService{
             service.setServiceImg((serviceDto.getServiceImg() != null) ? serviceDto.getServiceImg() : service.getServiceImg());
             service.setRating((serviceDto.getRating() != null) ? serviceDto.getRating() : service.getRating());
             service.setPriceTrans((serviceDto.getPriceTrans() != null) ? serviceDto.getPriceTrans() : service.getPriceTrans());
-            service.setTripAmount((serviceDto.getTripAmount() != null) ? serviceDto.getTripAmount() : service.getTripAmount());
             service.setRoom((serviceDto.getRoom() != null) ? serviceDto.getRoom() : service.getRoom());
             service.setDoubleRoom((serviceDto.getDoubleRoom() != null) ? serviceDto.getDoubleRoom() : service.getDoubleRoom());
-            service.setNightAmount((serviceDto.getNightAmount() != null) ? serviceDto.getNightAmount() : service.getNightAmount());
             service.setFoodPrice((serviceDto.getFoodPrice() != null) ? serviceDto.getFoodPrice() : service.getFoodPrice());
             service.setEntranceFee((serviceDto.getEntranceFee() != null) ? serviceDto.getEntranceFee() : service.getEntranceFee());
             service.setPersonalGuide((serviceDto.getPersonalGuide() != null) ? serviceDto.getPersonalGuide() : service.getPersonalGuide());
-            service.setRoomAmount((serviceDto.getRoomAmount() != null) ? serviceDto.getRoomAmount() : service.getRoomAmount());
 
             if (serviceDto.getServiceName() != null){
                 Optional<TypeService> optionalTypeService = typeServiceRepository.findByTypeName(serviceDto.getTypeName());
