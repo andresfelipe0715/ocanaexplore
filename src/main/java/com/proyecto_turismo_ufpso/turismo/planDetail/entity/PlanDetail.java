@@ -45,6 +45,8 @@ public class PlanDetail {
     @Column(name = "food_amount")
     private Double foodAmount;
 
+    @Column(name = "time")
+    private Double time;
 
     @Column(name = "subtotal", nullable = false)
     private Double subtotal;
