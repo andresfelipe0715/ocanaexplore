@@ -48,6 +48,8 @@ public class OfferDetailServiceImp implements OfferDetailService {
                 new MessageGeneric("No se encontro el detalle del carrito de compras que esta solicitando", "404", HttpStatus.NOT_FOUND)));
     }
 
+
+    /*
     @Override
     public OfferDetailDto saveOfferDetail(OfferDetailDto offerDetailDto) {
 
@@ -84,6 +86,54 @@ public class OfferDetailServiceImp implements OfferDetailService {
         offerDetail = offerDetailRepository.save(offerDetail);
         return offerDetailModelMapper.map(offerDetail, OfferDetailDto.class);
     }
+
+     */
+
+    @Override
+    public OfferDetailDto saveOfferDetail(OfferDetailDto offerDetailDto) {
+
+        com.proyecto_turismo_ufpso.turismo.service.entity.Service service = serviceRepository.findById(offerDetailDto.getServiceId())
+                .orElseThrow(() -> new MessageGeneric("Servicio no encontrado", "404", HttpStatus.NOT_FOUND));
+
+        OfferDetail offerDetail = offerDetailModelMapper.map(offerDetailDto, OfferDetail.class);
+        offerDetail.setService(service);
+
+        double subtotal = 0.0;
+
+        // Verificar el tipo de servicio y calcular el subtotal en consecuencia
+        if ("Hoteleria".equals(service.getTypeName())) {
+            // Tipo de servicio: Hoteleria
+            double roomSubtotal = (offerDetailDto.getRoomAmount() != null ? offerDetailDto.getRoomAmount() : 0)
+                    * (offerDetailDto.getNight_amount() != null ? offerDetailDto.getNight_amount() : 0)
+                    * (service.getRoom() != null ? service.getRoom() : 0)
+                    + (offerDetailDto.getDoubleRoomAmount() != null ? offerDetailDto.getDoubleRoomAmount() : 0)
+                    * (offerDetailDto.getNight_amount() != null ? offerDetailDto.getNight_amount() : 0)
+                    * (offerDetailDto.getDoubleRoomAmount() != null ? offerDetailDto.getDoubleRoomAmount() : 0);
+            subtotal = roomSubtotal;
+        } else if ("Restaurante".equals(service.getTypeName())) {
+            // Tipo de servicio: Restaurante
+            double restaurantSubtotal = (service.getFoodPrice() != null ? service.getFoodPrice() : 0)
+                    * (offerDetailDto.getFoodAmount() != null ? offerDetailDto.getFoodAmount() : 0)
+                    + (service.getPriceTrans() != null ? service.getPriceTrans() : 0)
+                    * (offerDetailDto.getTripAmount() != null ? offerDetailDto.getTripAmount() : 0);
+            subtotal = restaurantSubtotal;
+        } else if ("Sitio turistico".equals(service.getTypeName())) {
+            // Tipo de servicio: Sitio Turistico
+            double touristSiteSubtotal = (service.getEntranceFee() != null ? service.getEntranceFee() : 0)
+                    + (service.getPersonalGuide() != null ? service.getPersonalGuide() : 0)
+                    + (service.getPriceTrans() != null ? service.getPriceTrans() : 0)
+                    * (offerDetailDto.getTripAmount() != null ? offerDetailDto.getTripAmount() : 0);
+            subtotal = touristSiteSubtotal;
+        }
+
+        // Establecer el subtotal en el OfferDetail
+        offerDetail.setSubtotal(subtotal);
+
+        // Guardar en el repositorio y devolver el DTO
+        offerDetail = offerDetailRepository.save(offerDetail);
+        return offerDetailModelMapper.map(offerDetail, OfferDetailDto.class);
+    }
+
 
     @Override
     public Boolean deleteOfferDetail(UUID offerDetailId) {
