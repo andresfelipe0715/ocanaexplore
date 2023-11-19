@@ -1,6 +1,7 @@
 package com.proyecto_turismo_ufpso.turismo.planDetail.dto;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -29,7 +30,7 @@ public class PlanDetailDto {
     private UUID serviceId;
 
     @JsonProperty(value = "date")
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     @NotNull
     @NotEmpty
     private Date date;

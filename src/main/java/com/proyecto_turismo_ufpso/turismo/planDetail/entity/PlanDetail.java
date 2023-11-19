@@ -1,6 +1,7 @@
 package com.proyecto_turismo_ufpso.turismo.planDetail.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.proyecto_turismo_ufpso.turismo.plan.entity.Plan;
 import com.proyecto_turismo_ufpso.turismo.service.entity.Service;
 import com.proyecto_turismo_ufpso.turismo.typeService.entity.TypeService;
@@ -28,8 +29,9 @@ public class PlanDetail {
     private UUID planId;
 
     @Column(name = "date")
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSZ")
     private Date date;
+
     @Column(name = "trip_amount")
     private Integer tripAmount;
 
