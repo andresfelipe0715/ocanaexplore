@@ -86,10 +86,14 @@ public class PlanDetailServiceImp implements PlanDetailService{
         return modelMapper.map(planDetail, PlanDetailDto.class);
     }
 
-
     @Override
     public Boolean deletePlanDetail(UUID planDetailId) {
-        return null;
+
+        if (planDetailRepository.findById(planDetailId).isPresent()){
+            planDetailRepository.deleteById(planDetailId);
+            return true;
+        }
+        return true;
     }
 
     @Override
