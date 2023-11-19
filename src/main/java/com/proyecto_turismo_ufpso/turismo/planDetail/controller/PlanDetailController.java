@@ -35,27 +35,27 @@ public class PlanDetailController {
         return new ResponseEntity<>(planDetailService.savePlanDetail(planDetailDto), HttpStatus.CREATED);
     }
 
-    /*@DeleteMapping("/delete/{cartProductId}")
-    public ResponseEntity deleteCartProduct (@PathVariable UUID cartProductId){
-        if(cartProductService.deleteCartProduct(cartProductId)){
+    @DeleteMapping("/delete/{planDetailId}")
+    public ResponseEntity deletePlanDetail (@PathVariable UUID planDetailId){
+        if(planDetailService.deletePlanDetail(planDetailId)){
             return new ResponseEntity(HttpStatus.NO_CONTENT);
         }
         return new ResponseEntity(HttpStatus.NOT_FOUND);
     }
 
-    @GetMapping("/cart/{cartId}")
-    public ResponseEntity <List<CartProductDto>> getCartProductByCart (@PathVariable("cartId") UUID cartId){
-        List<CartProductDto> cartProducts = cartProductService.getCartProductByCart(cartId);
-        if (!cartProducts.isEmpty()){
-            return new ResponseEntity<>(cartProducts, HttpStatus.OK);
+    @GetMapping("/plan/{planId}")
+    public ResponseEntity <List<PlanDetailDto>> getPlanDetailtByPlan (@PathVariable("planId") UUID planId){
+        List<PlanDetailDto> planDetailDtos = planDetailService.getPlanDetailByPlan(planId);
+        if (!planDetailDtos.isEmpty()){
+            return new ResponseEntity<>(planDetailDtos, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 
-    @PutMapping("{cartProductId}") //actualizar
-    public  ResponseEntity <CartProductDto> updateCartProduct (@RequestBody CartProductDto cartProductDto, @PathVariable("cartProductId") UUID cartProductId){
-        return new ResponseEntity<>(cartProductService.updateCartProduct(cartProductId, cartProductDto), HttpStatus.OK);
-    }*/
+    @PutMapping("/update/{planDetailId}") //actualizar
+    public  ResponseEntity <PlanDetailDto> updateCartProduct (@RequestBody PlanDetailDto planDetailDto, @PathVariable("planDetailId") UUID planDetailId){
+        return new ResponseEntity<>(planDetailService.updatePlanDetail(planDetailId, planDetailDto), HttpStatus.OK);
+    }
 
 }

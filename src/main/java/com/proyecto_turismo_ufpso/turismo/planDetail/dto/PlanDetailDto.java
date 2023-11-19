@@ -3,6 +3,7 @@ package com.proyecto_turismo_ufpso.turismo.planDetail.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -14,7 +15,7 @@ import java.util.UUID;
 
 public class PlanDetailDto {
 
-    @JsonProperty(value = "planDetail", access = JsonProperty.Access.READ_ONLY)
+    @JsonProperty(value = "planDetailId")
     private UUID planDetailId;
 
     @JsonProperty(value = "planId")
@@ -28,6 +29,7 @@ public class PlanDetailDto {
     private UUID serviceId;
 
     @JsonProperty(value = "date")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @NotNull
     @NotEmpty
     private Date date;
