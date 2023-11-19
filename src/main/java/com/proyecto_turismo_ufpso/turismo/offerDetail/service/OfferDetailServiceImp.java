@@ -49,45 +49,6 @@ public class OfferDetailServiceImp implements OfferDetailService {
     }
 
 
-    /*
-    @Override
-    public OfferDetailDto saveOfferDetail(OfferDetailDto offerDetailDto) {
-
-        com.proyecto_turismo_ufpso.turismo.service.entity.Service service = serviceRepository.findById(offerDetailDto.getServiceId())
-                .orElseThrow(() -> new MessageGeneric("Servicio no encontrado", "404", HttpStatus.NOT_FOUND));
-
-        OfferDetail offerDetail = offerDetailModelMapper.map(offerDetailDto, OfferDetail.class);
-        offerDetail.setService(service);
-
-        double subtotal = 0.0;
-
-        // Verificar el tipo de servicio y calcular el subtotal en consecuencia
-        if ("Hoteleria".equals(service.getTypeName())) {
-            // Tipo de servicio: Hoteleria
-            double roomSubtotal = (offerDetailDto.getRoomAmount() * offerDetailDto.getNight_amount() * service.getRoom())
-                    + (offerDetailDto.getDoubleRoomAmount() * offerDetailDto.getNight_amount() * offerDetailDto.getDoubleRoomAmount());
-            subtotal = roomSubtotal;
-        } else if ("Restaurante".equals(service.getTypeName())) {
-            // Tipo de servicio: Restaurante
-            double restaurantSubtotal = (service.getFoodPrice() * offerDetailDto.getFoodAmount())
-                    + (service.getPriceTrans() * offerDetailDto.getTripAmount());
-            subtotal = restaurantSubtotal;
-        } else if ("Sitio turistico".equals(service.getTypeName())) {
-            // Tipo de servicio: Sitio Turistico
-            double touristSiteSubtotal = service.getEntranceFee() + service.getPersonalGuide()
-                    + (service.getPriceTrans() * offerDetailDto.getTripAmount());
-            subtotal = touristSiteSubtotal;
-        }
-
-        // Establecer el subtotal en el PlanDetail
-        offerDetail.setSubtotal(subtotal);
-
-        // Guardar en el repositorio y devolver el DTO
-        offerDetail = offerDetailRepository.save(offerDetail);
-        return offerDetailModelMapper.map(offerDetail, OfferDetailDto.class);
-    }
-
-     */
 
     @Override
     public OfferDetailDto saveOfferDetail(OfferDetailDto offerDetailDto) {
@@ -155,34 +116,34 @@ public class OfferDetailServiceImp implements OfferDetailService {
     public OfferDetailDto updateOfferDetail(UUID offerDetailId, OfferDetailDto offerDetailDto) {
         // Obtener el OfferDetail de la base de datos
         OfferDetail offerDetail = offerDetailRepository.findById(offerDetailId)
-                .orElseThrow(() -> new MessageGeneric("Detalle de plan no encontrado", "404", HttpStatus.NOT_FOUND));
+                .orElseThrow(() -> new MessageGeneric("Detalle de oferta no encontrado", "404", HttpStatus.NOT_FOUND));
 
         // Actualizar los atributos del OfferDetail según las condiciones dadas
-        offerDetail.setDoubleRoomAmount((offerDetailDto.getDoubleRoomAmount() != null) ? offerDetailDto.getDoubleRoomAmount() : offerDetail.getDoubleRoomAmount());
-        offerDetail.setFoodAmount((offerDetailDto.getFoodAmount() != null) ? offerDetailDto.getFoodAmount() : offerDetail.getFoodAmount());
-        offerDetail.setNightAmount((offerDetailDto.getNight_amount() != null) ? offerDetailDto.getNight_amount() : offerDetail.getNightAmount());
-        offerDetail.setRoomAmount((offerDetailDto.getRoomAmount() != null) ? offerDetailDto.getRoomAmount() : offerDetail.getRoomAmount());
-        offerDetail.setTripAmount((offerDetailDto.getTripAmount() != null) ? offerDetailDto.getTripAmount() : offerDetail.getTripAmount());
+        offerDetail.setDoubleRoomAmount((offerDetailDto.getDoubleRoomAmount() != null) ? offerDetailDto.getDoubleRoomAmount() : 0);
+        offerDetail.setFoodAmount((offerDetailDto.getFoodAmount() != null) ? offerDetailDto.getFoodAmount() : 0);
+        offerDetail.setNightAmount((offerDetailDto.getNight_amount() != null) ? offerDetailDto.getNight_amount() : 0);
+        offerDetail.setRoomAmount((offerDetailDto.getRoomAmount() != null) ? offerDetailDto.getRoomAmount() : 0);
+        offerDetail.setTripAmount((offerDetailDto.getTripAmount() != null) ? offerDetailDto.getTripAmount() : 0);
 
         // Actualizar el subtotal según la lógica del servicio savePlanDetail
         com.proyecto_turismo_ufpso.turismo.service.entity.Service service = offerDetail.getService();
         double subtotal = 0.0;
 
         if ("Hoteleria".equals(service.getTypeName())) {
-            double roomSubtotal = (offerDetail.getRoomAmount() * offerDetail.getNightAmount() * service.getRoom())
-                    + (offerDetail.getDoubleRoomAmount() * offerDetail.getNightAmount() * service.getRoom());
+            double roomSubtotal = (offerDetail.getRoomAmount() * offerDetail.getNightAmount() * (service.getRoom() != null ? service.getRoom() : 0))
+                    + (offerDetail.getDoubleRoomAmount() * offerDetail.getNightAmount() * (offerDetail.getDoubleRoomAmount() != null ? offerDetail.getDoubleRoomAmount() : 0));
             subtotal = roomSubtotal;
         } else if ("Restaurante".equals(service.getTypeName())) {
-            double restaurantSubtotal = (service.getFoodPrice() * offerDetail.getFoodAmount())
-                    + (service.getPriceTrans() * offerDetail.getTripAmount());
+            double restaurantSubtotal = ((service.getFoodPrice() != null ? service.getFoodPrice() : 0) * offerDetail.getFoodAmount())
+                    + ((service.getPriceTrans() != null ? service.getPriceTrans() : 0) * offerDetail.getTripAmount());
             subtotal = restaurantSubtotal;
         } else if ("Sitio turistico".equals(service.getTypeName())) {
-            double touristSiteSubtotal = service.getEntranceFee() + service.getPersonalGuide()
-                    + (service.getPriceTrans() * offerDetail.getTripAmount());
+            double touristSiteSubtotal = (service.getEntranceFee() != null ? service.getEntranceFee() : 0) + (service.getPersonalGuide() != null ? service.getPersonalGuide() : 0)
+                    + ((service.getPriceTrans() != null ? service.getPriceTrans() : 0) * offerDetail.getTripAmount());
             subtotal = touristSiteSubtotal;
         }
 
-        // Establecer el nuevo subtotal en el PlanDetail
+        // Establecer el nuevo subtotal en el OfferDetail
         offerDetail.setSubtotal(subtotal);
 
         // Guardar en el repositorio y devolver el DTO actualizado

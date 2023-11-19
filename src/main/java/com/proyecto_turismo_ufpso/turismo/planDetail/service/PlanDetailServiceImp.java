@@ -162,27 +162,27 @@ public class PlanDetailServiceImp implements PlanDetailService{
                 .orElseThrow(() -> new MessageGeneric("Detalle de plan no encontrado", "404", HttpStatus.NOT_FOUND));
 
         // Actualizar los atributos del PlanDetail según las condiciones dadas
-        planDetail.setDoubleRoomAmount((planDetailDto.getDoubleRoomAmount() != null) ? planDetailDto.getDoubleRoomAmount() : planDetail.getDoubleRoomAmount());
-        planDetail.setFoodAmount((planDetailDto.getFoodAmount() != null) ? planDetailDto.getFoodAmount() : planDetail.getFoodAmount());
-        planDetail.setNightAmount((planDetailDto.getNight_amount() != null) ? planDetailDto.getNight_amount() : planDetail.getNightAmount());
-        planDetail.setRoomAmount((planDetailDto.getRoomAmount() != null) ? planDetailDto.getRoomAmount() : planDetail.getRoomAmount());
-        planDetail.setTripAmount((planDetailDto.getTripAmount() != null) ? planDetailDto.getTripAmount() : planDetail.getTripAmount());
+        planDetail.setDoubleRoomAmount((planDetailDto.getDoubleRoomAmount() != null) ? planDetailDto.getDoubleRoomAmount() : 0);
+        planDetail.setFoodAmount((planDetailDto.getFoodAmount() != null) ? planDetailDto.getFoodAmount() : 0);
+        planDetail.setNightAmount((planDetailDto.getNight_amount() != null) ? planDetailDto.getNight_amount() : 0);
+        planDetail.setRoomAmount((planDetailDto.getRoomAmount() != null) ? planDetailDto.getRoomAmount() : 0);
+        planDetail.setTripAmount((planDetailDto.getTripAmount() != null) ? planDetailDto.getTripAmount() : 0);
 
         // Actualizar el subtotal según la lógica del servicio savePlanDetail
         com.proyecto_turismo_ufpso.turismo.service.entity.Service service = planDetail.getService();
         double subtotal = 0.0;
 
         if ("Hoteleria".equals(service.getTypeName())) {
-            double roomSubtotal = (planDetail.getRoomAmount() * planDetail.getNightAmount() * service.getRoom())
-                    + (planDetail.getDoubleRoomAmount() * planDetail.getNightAmount() * service.getRoom());
+            double roomSubtotal = (planDetail.getRoomAmount() * planDetail.getNightAmount() * (service.getRoom() != null ? service.getRoom() : 0))
+                    + (planDetail.getDoubleRoomAmount() * planDetail.getNightAmount() * (planDetail.getDoubleRoomAmount() != null ? planDetail.getDoubleRoomAmount() : 0));
             subtotal = roomSubtotal;
         } else if ("Restaurante".equals(service.getTypeName())) {
-            double restaurantSubtotal = (service.getFoodPrice() * planDetail.getFoodAmount())
-                    + (service.getPriceTrans() * planDetail.getTripAmount());
+            double restaurantSubtotal = ((service.getFoodPrice() != null ? service.getFoodPrice() : 0) * planDetail.getFoodAmount())
+                    + ((service.getPriceTrans() != null ? service.getPriceTrans() : 0) * planDetail.getTripAmount());
             subtotal = restaurantSubtotal;
         } else if ("Sitio turistico".equals(service.getTypeName())) {
-            double touristSiteSubtotal = service.getEntranceFee() + service.getPersonalGuide()
-                    + (service.getPriceTrans() * planDetail.getTripAmount());
+            double touristSiteSubtotal = (service.getEntranceFee() != null ? service.getEntranceFee() : 0) + (service.getPersonalGuide() != null ? service.getPersonalGuide() : 0)
+                    + ((service.getPriceTrans() != null ? service.getPriceTrans() : 0) * planDetail.getTripAmount());
             subtotal = touristSiteSubtotal;
         }
 
@@ -193,4 +193,5 @@ public class PlanDetailServiceImp implements PlanDetailService{
         planDetail = planDetailRepository.save(planDetail);
         return modelMapper.map(planDetail, PlanDetailDto.class);
     }
+
 }
