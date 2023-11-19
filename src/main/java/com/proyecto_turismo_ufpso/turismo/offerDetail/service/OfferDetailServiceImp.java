@@ -26,14 +26,14 @@ public class OfferDetailServiceImp implements OfferDetailService {
     private ServiceRepository serviceRepository;
 
     @Autowired
-    private ModelMapper modelMapper;
+    private ModelMapper offerDetailModelMapper;
 
     @Override
     public List<OfferDetailDto> getAllOfferDetails() {
         List<OfferDetail> offerDetails = offerDetailRepository.findAll();
 
         return offerDetails.stream().map(offerDetail -> {
-            OfferDetailDto dto = modelMapper.map(offerDetail, OfferDetailDto.class);
+            OfferDetailDto dto = offerDetailModelMapper.map(offerDetail, OfferDetailDto.class);
             // Añade el nombre y la imagen del producto al DTO
             dto.setServiceName(offerDetail.getService().getServiceName());
             dto.setServiceImg(offerDetail.getService().getServiceImg());
@@ -44,7 +44,7 @@ public class OfferDetailServiceImp implements OfferDetailService {
     @Override
     public Optional<OfferDetailDto> getOfferDetailId(UUID offerDetailId) {
         return Optional.ofNullable(offerDetailRepository.findById(offerDetailId).map(offerDetail ->
-                modelMapper.map(offerDetail, OfferDetailDto.class)).orElseThrow(() ->
+                offerDetailModelMapper.map(offerDetail, OfferDetailDto.class)).orElseThrow(() ->
                 new MessageGeneric("No se encontro el detalle del carrito de compras que esta solicitando", "404", HttpStatus.NOT_FOUND)));
     }
 
@@ -54,7 +54,7 @@ public class OfferDetailServiceImp implements OfferDetailService {
         com.proyecto_turismo_ufpso.turismo.service.entity.Service service = serviceRepository.findById(offerDetailDto.getServiceId())
                 .orElseThrow(() -> new MessageGeneric("Servicio no encontrado", "404", HttpStatus.NOT_FOUND));
 
-        OfferDetail offerDetail = modelMapper.map(offerDetailDto, OfferDetail.class);
+        OfferDetail offerDetail = offerDetailModelMapper.map(offerDetailDto, OfferDetail.class);
         offerDetail.setService(service);
 
         double subtotal = 0.0;
@@ -82,7 +82,7 @@ public class OfferDetailServiceImp implements OfferDetailService {
 
         // Guardar en el repositorio y devolver el DTO
         offerDetail = offerDetailRepository.save(offerDetail);
-        return modelMapper.map(offerDetail, OfferDetailDto.class);
+        return offerDetailModelMapper.map(offerDetail, OfferDetailDto.class);
     }
 
     @Override
@@ -97,7 +97,7 @@ public class OfferDetailServiceImp implements OfferDetailService {
     @Override
     public List<OfferDetailDto> getOfferDetailByOffer(UUID offerId) {
         return offerDetailRepository.getByOfferId(offerId).stream().map(offerDetail -> {
-            return modelMapper.map(offerDetail, OfferDetailDto.class);
+            return offerDetailModelMapper.map(offerDetail, OfferDetailDto.class);
         }).collect(Collectors.toList());
     }
 
@@ -137,6 +137,6 @@ public class OfferDetailServiceImp implements OfferDetailService {
 
         // Guardar en el repositorio y devolver el DTO actualizado
         offerDetail = offerDetailRepository.save(offerDetail);
-        return modelMapper.map(offerDetail, OfferDetailDto.class);
+        return offerDetailModelMapper.map(offerDetail, OfferDetailDto.class);
     }
 }

@@ -1,10 +1,13 @@
 package com.proyecto_turismo_ufpso.turismo.service.entity;
 
+import com.proyecto_turismo_ufpso.turismo.offerDetail.entity.OfferDetail;
+import com.proyecto_turismo_ufpso.turismo.planDetail.entity.PlanDetail;
 import com.proyecto_turismo_ufpso.turismo.typeService.entity.TypeService;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -67,6 +70,14 @@ public class Service {
     @ManyToOne
     @JoinColumn(name = "fk_type_service_id", insertable = false,updatable = false)  //no se pueden insertar ni actualizar nuevas categorias
     private TypeService typeService;
+
+
+    @OneToMany (mappedBy = "service", cascade = {CascadeType.DETACH,CascadeType.REMOVE,CascadeType.MERGE})
+    private List<PlanDetail> planDetails;
+
+    @OneToMany (mappedBy = "service", cascade = {CascadeType.DETACH,CascadeType.REMOVE,CascadeType.MERGE})
+    private List<OfferDetail> offerDetails;
+
 
     public UUID getServiceId() {
         return serviceId;

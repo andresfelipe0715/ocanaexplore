@@ -27,11 +27,6 @@ public class OfferDetailDto {
     @NotNull
     private UUID serviceId;
 
-    @JsonProperty(value = "date")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-    @NotNull
-    @NotEmpty
-    private Date date;
 
     @JsonProperty(value = "time")
     @NotEmpty
@@ -94,13 +89,6 @@ public class OfferDetailDto {
         this.serviceId = serviceId;
     }
 
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
-    }
 
     public String getTime() {
         return time;

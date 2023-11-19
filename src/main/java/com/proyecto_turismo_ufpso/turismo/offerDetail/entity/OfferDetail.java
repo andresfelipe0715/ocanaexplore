@@ -26,10 +26,6 @@ public class OfferDetail {
     @Column(name = "fk_offer_id")
     private UUID offerId;
 
-    @Column(name = "date")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSZ")
-    private Date date;
-
     @Column(name = "trip_amount")
     private Integer tripAmount;
 
@@ -83,13 +79,6 @@ public class OfferDetail {
         this.offerId = offerId;
     }
 
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
-    }
 
     public Integer getTripAmount() {
         return tripAmount;
