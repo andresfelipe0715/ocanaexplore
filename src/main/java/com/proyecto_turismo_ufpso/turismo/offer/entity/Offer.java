@@ -33,13 +33,13 @@ public class Offer {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date finishDate;
 
-    @Column(name = "percentage", nullable = false)
+    @Column(name = "percentage")
     private Double percentage;
 
-    @Column(name = "discount", nullable = false)
+    @Column(name = "discount")
     private Double discount;
 
-    @Column(name = "total_discount", nullable = false)
+    @Column(name = "total_discount")
     private Double totalDiscount;
     @Column(name = "fk_user_id", nullable = false)
     private UUID userId;

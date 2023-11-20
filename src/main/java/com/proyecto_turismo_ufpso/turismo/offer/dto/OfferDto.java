@@ -36,17 +36,14 @@ public class OfferDto {
 
     @JsonProperty(value = "percentage")
     @NotEmpty
-    @NotNull
     private Double percentage;
 
     @JsonProperty(value = "discount")
     @NotEmpty
-    @NotNull
     private Double discount;
 
     @JsonProperty(value = "totalDiscount")
     @NotEmpty
-    @NotNull
     private Double totalDiscount;
 
     public Date getStartDate() {

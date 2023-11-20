@@ -49,6 +49,9 @@ public class OfferServiceImp implements OfferService{
             Offer offer = modelMapper.map(offerDto, Offer.class);
 
             offer.setTotal(0.0);
+            offer.setTotalDiscount(0.0);
+            offer.setDiscount(0.0);
+            offer.setPercentage(20.0);
 
             Offer savedOffer = offerRepository.save(offer);
             return modelMapper.map(savedOffer, OfferDto.class);
@@ -59,6 +62,32 @@ public class OfferServiceImp implements OfferService{
     }
 
     @Override
+    public OfferDto updateOffer(UUID offerId, OfferDto offerDto) {
+        Offer offer = offerRepository.findById(offerId)
+                .orElseThrow(() -> new MessageGeneric("Plan no encontrado", "404", HttpStatus.NOT_FOUND));
+
+        Double total = offerDetailRepository.sumSubtotalByOfferId(offerId);
+
+        // Realizar la operación para actualizar las variables
+        Double percentage = offerDto.getPercentage();  // Obtener el porcentaje de DTO
+        Double discount = (percentage / 100) * total;
+        Double totalDiscount = discount;  // Puedes asignar directamente a totalDiscount o realizar otra operación si es necesario
+
+        // Actualizar las variables en la entidad
+        offer.setPercentage(percentage);
+        offer.setDiscount(discount);
+        offer.setTotalDiscount(totalDiscount);
+
+        // Actualizar el subtotal del cart
+        total -= discount;
+        offer.setTotal(total);
+
+        // Guardar el cart actualizado
+        offer = offerRepository.save(offer);
+
+        return modelMapper.map(offer, OfferDto.class);
+    }
+    /*@Override
     public OfferDto updateOffer(UUID offerId, OfferDto offerDto) {
         Offer offer =  offerRepository.findById(offerId)
                 .orElseThrow(() -> new MessageGeneric("Plan no encontrado", "404", HttpStatus.NOT_FOUND));
@@ -71,7 +100,7 @@ public class OfferServiceImp implements OfferService{
         offer = offerRepository.save(offer);
 
         return modelMapper.map(offer, OfferDto.class);
-    }
+    }*/
 
 
     /*@Override
