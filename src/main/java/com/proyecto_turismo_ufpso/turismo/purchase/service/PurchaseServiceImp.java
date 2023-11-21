@@ -99,6 +99,7 @@ public class PurchaseServiceImp implements PurchaseService{
             purchase.setPaymentMethod(null);
         }
 
+
         if (purchase.getTargetNumber() == null) {
             purchase.setTargetNumber(null);
         }

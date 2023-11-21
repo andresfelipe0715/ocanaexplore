@@ -4,6 +4,8 @@ import com.proyecto_turismo_ufpso.turismo.planDetail.dto.PlanDetailDto;
 import com.proyecto_turismo_ufpso.turismo.offerDetail.dto.OfferDetailDto;
 import com.proyecto_turismo_ufpso.turismo.planDetail.entity.PlanDetail;
 import com.proyecto_turismo_ufpso.turismo.offerDetail.entity.OfferDetail;
+import com.proyecto_turismo_ufpso.turismo.purchase.dto.PurchaseDto;
+import com.proyecto_turismo_ufpso.turismo.purchase.entity.Purchase;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.PropertyMap;
 import org.springframework.context.annotation.Bean;
@@ -38,7 +40,7 @@ public class MapperConfig {
  */
 
 
-
+/*
 
 @Configuration
 public class MapperConfig {
@@ -71,6 +73,47 @@ public class MapperConfig {
 
 }
 
+
+
+ */
+
+@Configuration
+public class MapperConfig {
+    @Bean
+    public ModelMapper modelMapper() {
+        ModelMapper modelMapper = new ModelMapper();
+
+        // Configura el mapeo personalizado entre OfferDetail y OfferDetailDto
+        modelMapper.addMappings(new PropertyMap<OfferDetail, OfferDetailDto>() {
+            @Override
+            protected void configure() {
+                // Map the serviceName directly from the service in OfferDetail
+                map().setServiceName(source.getService().getServiceName());
+            }
+        });
+
+        // Add a separate configuration for PlanDetailDto (only if you have a PlanDetail class)
+        modelMapper.addMappings(new PropertyMap<PlanDetail, PlanDetailDto>() {
+            @Override
+            protected void configure() {
+                // Map the serviceName directly from the service in PlanDetail
+                map().setServiceName(source.getService().getServiceName());
+            }
+        });
+
+        // Add a configuration for PurchaseDto
+        modelMapper.addMappings(new PropertyMap<Purchase, PurchaseDto>() {
+            @Override
+            protected void configure() {
+                // Map the planId property based on your specific needs
+                map().setPlanId(source.getPlan().getPlanId());
+                // You might need additional mappings for other properties
+            }
+        });
+
+        return modelMapper;
+    }
+}
 
 
 

@@ -51,9 +51,9 @@ public class PlanDetailDto {
     @NotEmpty
     private Integer doubleRoomAmount;
 
-    @JsonProperty(value = "night_amount")
+    @JsonProperty(value = "nightAmount")
     @NotEmpty
-    private Integer night_amount;
+    private Integer nightAmount;
 
     @JsonProperty(value = "foodAmount")
     @NotEmpty
@@ -130,12 +130,21 @@ public class PlanDetailDto {
         this.doubleRoomAmount = doubleRoomAmount;
     }
 
-    public Integer getNight_amount() {
-        return night_amount;
+
+    public String getTime() {
+        return time;
     }
 
-    public void setNight_amount(Integer night_amount) {
-        this.night_amount = night_amount;
+    public void setTime(String time) {
+        this.time = time;
+    }
+
+    public Integer getNightAmount() {
+        return nightAmount;
+    }
+
+    public void setNightAmount(Integer nightAmount) {
+        this.nightAmount = nightAmount;
     }
 
     public Double getFoodAmount() {

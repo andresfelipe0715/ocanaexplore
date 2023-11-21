@@ -35,6 +35,13 @@ public class Purchase {
     @Column(name = "total", nullable = false)
     private Double total;
 
+
+    @Column(name = "codigo_qr")
+    private String codigoQr;
+
+
+
+
     @Column(name = "status", nullable = false)
     @Enumerated(EnumType.STRING)
     private PurchaseStatusEnum status;
@@ -43,9 +50,7 @@ public class Purchase {
     @JoinColumn(name = "fk_plan_id")  //no se pueden insertar ni actualizar nuevas categorias
     private Plan plan;
 
-    @ManyToOne
-    @JoinColumn(name = "fk_offer_id")  //no se pueden insertar ni actualizar nuevas categorias
-    private Offer offer;
+
 
     public Plan getPlan() {
         return plan;
@@ -55,12 +60,12 @@ public class Purchase {
         this.plan = plan;
     }
 
-    public Offer getOffer() {
-        return offer;
+    public String getCodigoQr() {
+        return codigoQr;
     }
 
-    public void setOffer(Offer offer) {
-        this.offer = offer;
+    public void setCodigoQr(String codigoQr) {
+        this.codigoQr = codigoQr;
     }
 
     public UUID getPurchaseId() {

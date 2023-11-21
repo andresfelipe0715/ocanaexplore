@@ -105,11 +105,11 @@ public class PlanDetailServiceImp implements PlanDetailService{
         if ("Hoteleria".equals(service.getTypeName())) {
             // Tipo de servicio: Hoteleria
             double roomSubtotal = (planDetailDto.getRoomAmount() != null ? planDetailDto.getRoomAmount() : 0)
-                    * (planDetailDto.getNight_amount() != null ? planDetailDto.getNight_amount() : 0)
+                    * (planDetailDto.getNightAmount() != null ? planDetailDto.getNightAmount() : 0)
                     * service.getRoom()
                     + (planDetailDto.getDoubleRoomAmount() != null ? planDetailDto.getDoubleRoomAmount() : 0)
-                    * (planDetailDto.getNight_amount() != null ? planDetailDto.getNight_amount() : 0)
-                    * (planDetailDto.getDoubleRoomAmount() != null ? planDetailDto.getDoubleRoomAmount() : 0);
+                    * (planDetailDto.getNightAmount() != null ? planDetailDto.getNightAmount() : 0)
+                    * service.getDoubleRoom();
             subtotal = roomSubtotal;
         } else if ("Restaurante".equals(service.getTypeName())) {
             // Tipo de servicio: Restaurante
@@ -164,7 +164,7 @@ public class PlanDetailServiceImp implements PlanDetailService{
         // Actualizar los atributos del PlanDetail según las condiciones dadas
         planDetail.setDoubleRoomAmount((planDetailDto.getDoubleRoomAmount() != null) ? planDetailDto.getDoubleRoomAmount() : 0);
         planDetail.setFoodAmount((planDetailDto.getFoodAmount() != null) ? planDetailDto.getFoodAmount() : 0);
-        planDetail.setNightAmount((planDetailDto.getNight_amount() != null) ? planDetailDto.getNight_amount() : 0);
+        planDetail.setNightAmount((planDetailDto.getNightAmount() != null) ? planDetailDto.getNightAmount() : 0);
         planDetail.setRoomAmount((planDetailDto.getRoomAmount() != null) ? planDetailDto.getRoomAmount() : 0);
         planDetail.setTripAmount((planDetailDto.getTripAmount() != null) ? planDetailDto.getTripAmount() : 0);
 

@@ -41,6 +41,11 @@ public class PurchaseDto {
     @NotEmpty
     private String total;
 
+    @JsonProperty(value = "codigoQr")
+    @NotEmpty
+    private String codigoQr;
+
+
     @JsonProperty(value = "status")
     @NotNull(message = "El campo state no puede ser null")
     private PurchaseStatusEnum status;
@@ -49,10 +54,14 @@ public class PurchaseDto {
     @NotNull(message = "El campo state no puede ser null")
     private UUID planId;
 
-    @JsonProperty(value = "offerId")
-    @NotNull(message = "El campo state no puede ser null")
-    private UUID offerId;
 
+    public String getCodigoQr() {
+        return codigoQr;
+    }
+
+    public void setCodigoQr(String codigoQr) {
+        this.codigoQr = codigoQr;
+    }
 
     public UUID getPurchaseId() {
         return purchaseId;
@@ -118,11 +127,5 @@ public class PurchaseDto {
         this.planId = planId;
     }
 
-    public UUID getOfferId() {
-        return offerId;
-    }
 
-    public void setOfferId(UUID offerId) {
-        this.offerId = offerId;
-    }
 }
